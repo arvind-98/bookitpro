@@ -79,12 +79,57 @@ function DashboardPreview() {
 
 export default function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [signupName, setSignupName] = useState("");
+  const [signupFirm, setSignupFirm] = useState("");
   const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [signupError, setSignupError] = useState("");
+  const [signupSuccess, setSignupSuccess] = useState("");
+  const [isSigningUp, setIsSigningUp] = useState(false);
 
-  function submitInterest(e: React.FormEvent<HTMLFormElement>) {
+  async function submitSignup(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (email.trim()) setSubmitted(true);
+    setSignupError("");
+    setSignupSuccess("");
+
+    if (signupName.trim().length < 2) {
+      setSignupError("Please enter your full name.");
+      return;
+    }
+    if (password.length < 8) {
+      setSignupError("Use a password with at least 8 characters.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setSignupError("Your passwords do not match.");
+      return;
+    }
+
+    setIsSigningUp(true);
+    try {
+      const response = await fetch("/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: signupName.trim(),
+          email: email.trim().toLowerCase(),
+          firm: signupFirm.trim() || undefined,
+          password,
+        }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(result.error || "We couldn’t create your account. Please try again.");
+      }
+      setSignupSuccess("Your account has been created. You can now sign in to BookitPro.");
+      setPassword("");
+      setConfirmPassword("");
+    } catch (error) {
+      setSignupError(error instanceof Error ? error.message : "Signup failed. Please try again.");
+    } finally {
+      setIsSigningUp(false);
+    }
   }
 
   return (
@@ -165,8 +210,16 @@ export default function HomePage() {
 
       <section id="faq" className="py-20 sm:py-24"><div className="container grid gap-10 lg:grid-cols-[.75fr_1.25fr]"><div><div className="section-eyebrow">Good to know</div><h2 className="mt-5 text-3xl font-bold tracking-[-.055em] sm:text-[42px]">A few things<br/>you might be<br className="hidden lg:block"/> wondering.</h2><p className="mt-4 max-w-[330px] text-[13px] leading-6 text-[#6e838a]">Have another question? Get in touch and we&apos;ll help you find your way around.</p><a href="#contact" className="mt-5 inline-flex items-center gap-2 text-[12px] font-bold text-[#0FA6A3]">Talk to the team <ArrowRight size={14}/></a></div><div>{faqs.map(f=><details key={f.q} className="faq-item"><summary>{f.q}</summary><p>{f.a}</p></details>)}</div></div></section>
 
-      <section id="contact" className="border-t border-[#E1E8EF] bg-[#F1F8F8] py-20 sm:py-24"><div className="container grid items-center gap-10 lg:grid-cols-[1fr_.75fr]"><div><div className="section-eyebrow">Your next step</div><h2 className="mt-5 max-w-[590px] text-3xl font-bold leading-[1.08] tracking-[-.055em] sm:text-[46px]">Let&apos;s make accounting<br/>feel a little more human.</h2><p className="mt-5 max-w-[510px] text-[14px] leading-7 text-[#6e838a]">Share your email to register your interest in BookitPro. This preview form demonstrates the signup experience; connect it to your production contact system before launch.</p><div className="mt-6 flex flex-wrap gap-4 text-[11px] text-[#6e838a]"><span className="flex items-center gap-2"><Fingerprint size={15} className="text-[#0FA6A3]"/> Your workspace, your way</span><span className="flex items-center gap-2"><CircleHelp size={15} className="text-[#0FA6A3]"/> Help when you need it</span></div></div>
-      <div className="rounded-[20px] border border-[#DCE7EE] bg-white p-6 shadow-[0_16px_50px_rgba(30,58,40,.06)] sm:p-8"><div className="text-[11px] font-bold uppercase tracking-[.13em] text-[#0FA6A3]">Stay in the loop</div><h3 className="mt-3 text-[24px] font-bold tracking-[-.045em]">{submitted ? "Thanks for your interest." : "Get to know BookitPro."}</h3><p className="mt-2 text-[12px] leading-5 text-[#6e838a]">{submitted ? "Your email has been captured in this page preview only. Connect the form to a backend before public launch." : "Leave your email and take the next step toward a clearer view of your business."}</p>{submitted ? <div className="mt-6 flex items-center gap-3 rounded-xl bg-[#E6F8F6] p-4 text-[12px] font-semibold text-[#087C83]"><Check size={18}/> Interest noted for {email}</div> : <form onSubmit={submitInterest} className="mt-6 space-y-3"><label htmlFor="email" className="block text-[11px] font-bold text-[#425249]">Work email</label><input id="email" type="email" required value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@yourbusiness.ca" className="w-full rounded-xl border border-[#DCE7EE] bg-[#FBFDFE] px-4 py-3.5 text-[13px] outline-none transition focus:border-[#58C5C1] focus:ring-4 focus:ring-[#E6F8F6]"/><button type="submit" className="btn btn-primary w-full py-4">Register your interest <ArrowRight size={15}/></button><p className="text-center text-[10px] leading-5 text-[#a0aaa3]">No spam. Just updates about BookitPro.</p></form>}</div></div></section>
+      <section id="contact" className="border-t border-[#E1E8EF] bg-[#F1F8F8] py-20 sm:py-24"><div className="container grid items-center gap-10 lg:grid-cols-[1fr_.85fr]"><div><div className="section-eyebrow">Get started with BookitPro</div><h2 className="mt-5 max-w-[590px] text-3xl font-bold leading-[1.08] tracking-[-.055em] sm:text-[46px]">Your next chapter<br/>starts with an account.</h2><p className="mt-5 max-w-[510px] text-[14px] leading-7 text-[#6e838a]">Create your BookitPro account to get started with a connected workspace for bookkeeping, client management and Canadian tax workflows. Use the same account to sign in to the product portal.</p><div className="mt-6 flex flex-wrap gap-4 text-[11px] text-[#6e838a]"><span className="flex items-center gap-2"><ShieldCheck size={15} className="text-[#0FA6A3"/> Password-protected account</span><span className="flex items-center gap-2"><CircleHelp size={15} className="text-[#0FA6A3"/> Already registered? <a className="font-bold text-[#087C83] underline" href="https://portal.bookitpro.ca/">Sign in</a></span></div><p className="mt-5 max-w-[500px] text-[11px] leading-5 text-[#8a968d]">Your details are sent to the BookitPro registration service to create your account.</p></div>
+      <div className="rounded-[20px] border border-[#DCE7EE] bg-white p-6 shadow-[0_16px_50px_rgba(30,58,40,.06)] sm:p-8"><div className="text-[11px] font-bold uppercase tracking-[.13em] text-[#0FA6A3]">Create your account</div><h3 className="mt-3 text-[24px] font-bold tracking-[-.045em]">Start with the essentials.</h3><p className="mt-2 text-[12px] leading-5 text-[#6e838a]">Enter your details below. Your account will be created through BookitPro’s registration backend.</p>
+      {signupSuccess ? <div role="status" className="mt-6 rounded-xl border border-[#BFE9D6] bg-[#F0FBF5] p-4"><div className="flex items-start gap-3 text-[13px] font-semibold text-[#16754A]"><Check size={18} className="mt-0.5 shrink-0"/><span>{signupSuccess}</span></div><a href="https://portal.bookitpro.ca/" className="btn btn-primary mt-4 w-full py-4">Sign in to BookitPro <ArrowRight size={15}/></a></div> : <form onSubmit={submitSignup} className="mt-6 space-y-3.5">
+      <div><label htmlFor="signup-name" className="mb-1.5 block text-[11px] font-bold text-[#425249]">Full name</label><input id="signup-name" autoComplete="name" required minLength={2} value={signupName} onChange={e=>setSignupName(e.target.value)} placeholder="Jane Smith" className="w-full rounded-xl border border-[#DCE7EE] bg-[#FBFDFE] px-4 py-3 text-[13px] outline-none transition focus:border-[#58C5C1] focus:ring-4 focus:ring-[#E6F8F6]"/></div>
+      <div><label htmlFor="signup-firm" className="mb-1.5 block text-[11px] font-bold text-[#425249]">Accounting firm <span className="font-normal text-[#8a968d]">(optional)</span></label><input id="signup-firm" autoComplete="organization" value={signupFirm} onChange={e=>setSignupFirm(e.target.value)} placeholder="Smith & Associates" className="w-full rounded-xl border border-[#DCE7EE] bg-[#FBFDFE] px-4 py-3 text-[13px] outline-none transition focus:border-[#58C5C1] focus:ring-4 focus:ring-[#E6F8F6]"/></div>
+      <div><label htmlFor="signup-email" className="mb-1.5 block text-[11px] font-bold text-[#425249]">Email</label><input id="signup-email" type="email" autoComplete="email" required value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@yourbusiness.ca" className="w-full rounded-xl border border-[#DCE7EE] bg-[#FBFDFE] px-4 py-3 text-[13px] outline-none transition focus:border-[#58C5C1] focus:ring-4 focus:ring-[#E6F8F6]"/></div>
+      <div><label htmlFor="signup-password" className="mb-1.5 block text-[11px] font-bold text-[#425249]">Password</label><input id="signup-password" type="password" autoComplete="new-password" required minLength={8} value={password} onChange={e=>setPassword(e.target.value)} placeholder="At least 8 characters" className="w-full rounded-xl border border-[#DCE7EE] bg-[#FBFDFE] px-4 py-3 text-[13px] outline-none transition focus:border-[#58C5C1] focus:ring-4 focus:ring-[#E6F8F6]"/></div>
+      <div><label htmlFor="signup-confirm-password" className="mb-1.5 block text-[11px] font-bold text-[#425249]">Confirm password</label><input id="signup-confirm-password" type="password" autoComplete="new-password" required minLength={8} value={confirmPassword} onChange={e=>setConfirmPassword(e.target.value)} placeholder="Re-enter your password" className="w-full rounded-xl border border-[#DCE7EE] bg-[#FBFDFE] px-4 py-3 text-[13px] outline-none transition focus:border-[#58C5C1] focus:ring-4 focus:ring-[#E6F8F6]"/></div>
+      {signupError && <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-[12px] leading-5 text-red-700">{signupError}</div>}
+      <button type="submit" disabled={isSigningUp} className="btn btn-primary w-full py-4 disabled:cursor-not-allowed disabled:opacity-60">{isSigningUp ? "Creating your account..." : "Create account"} <ArrowRight size={15}/></button><p className="text-center text-[10px] leading-5 text-[#a0aaa3]">Password must be at least 8 characters. Already have an account? <a href="https://portal.bookitpro.ca/" className="font-bold text-[#087C83] underline">Sign in</a>.</p></form>}</div></div></section>
 
       <footer className="bg-[#0B2545] py-10 text-white"><div className="container"><div className="flex flex-col justify-between gap-8 border-b border-white/10 pb-8 sm:flex-row sm:items-center"><div><Logo light/><p className="mt-3 max-w-[340px] text-[11px] leading-5 text-white/55">A clearer way to stay close to your books, your business and what comes next.</p></div><div className="flex flex-wrap gap-x-6 gap-y-3 text-[11px] text-white/65"><a className="hover:text-white" href="#features">Features</a><a className="hover:text-white" href="#how-it-works">How it works</a><a className="hover:text-white" href="#faq">FAQs</a><a className="hover:text-white" href="#contact">Contact</a></div></div><div className="flex flex-col gap-2 pt-5 text-[10px] text-white/40 sm:flex-row sm:items-center sm:justify-between"><span>© {new Date().getFullYear()} BookitPro. All rights reserved.</span><span>Made for a clearer view of business.</span></div></div></footer>
     </main>
