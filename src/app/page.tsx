@@ -29,9 +29,9 @@ function Logo({ light = false }: { light?: boolean }) {
       <img
         src="/bookit-pro-website.ico"
         alt="BookitPro"
-        width="104"
-        height="104"
-        className={`h-[92px] w-[92px] object-contain mix-blend-multiply ${light ? "bg-transparent" : "bg-transparent"}`}
+        width="184"
+        height="184"
+        className={`h-[184px] w-[184px] object-contain mix-blend-multiply ${light ? "bg-transparent" : "bg-transparent"}`}
       />
     </a>
   );
