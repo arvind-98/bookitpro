@@ -29,9 +29,9 @@ function Logo({ light = false }: { light?: boolean }) {
       <img
         src="/bookit-pro-website.ico"
         alt="BookitPro"
-        width="72"
-        height="72"
-        className={`h-16 w-16 rounded-xl object-contain ${light ? "bg-white" : "bg-transparent"}`}
+        width="88"
+        height="88"
+        className={`h-[76px] w-[76px] object-contain mix-blend-multiply ${light ? "bg-transparent" : "bg-transparent"}`}
       />
     </a>
   );
@@ -96,7 +96,7 @@ export default function HomePage() {
         <div className="container flex h-[76px] items-center justify-between">
           <Logo/>
           <nav className="hidden items-center gap-8 md:flex"><a className="nav-link" href="#features">Features</a><a className="nav-link" href="#how-it-works">How it works</a><a className="nav-link" href="#for-business">Who it&apos;s for</a><a className="nav-link" href="#faq">FAQs</a></nav>
-          <div className="hidden items-center gap-3 md:flex"><a className="nav-link px-2 py-2" href="#contact">Sign in</a><a className="btn btn-primary" href="#contact">Get a demo <ArrowUpRight size={15}/></a></div>
+          <div className="hidden items-center gap-3 md:flex"><a className="nav-link px-2 py-2" href="https://portal.bookitpro.ca/" target="_blank" rel="noopener noreferrer">Sign in</a><a className="btn btn-primary" href="#contact">Get a demo <ArrowUpRight size={15}/></a></div>
           <button type="button" aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"} onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e5e9e1] text-[#12345B] md:hidden">{mobileMenuOpen ? <X size={19}/> : <Menu size={19}/>}</button>
         </div>
         {mobileMenuOpen && <nav className="container flex flex-col gap-4 border-t border-[#E1E8EF] py-5 md:hidden"><a onClick={()=>setMobileMenuOpen(false)} className="nav-link" href="#features">Features</a><a onClick={()=>setMobileMenuOpen(false)} className="nav-link" href="#how-it-works">How it works</a><a onClick={()=>setMobileMenuOpen(false)} className="nav-link" href="#for-business">Who it&apos;s for</a><a onClick={()=>setMobileMenuOpen(false)} className="nav-link" href="#faq">FAQs</a><a onClick={()=>setMobileMenuOpen(false)} className="btn btn-primary w-full" href="#contact">Get a demo <ArrowRight size={15}/></a></nav>}
