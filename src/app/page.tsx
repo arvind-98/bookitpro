@@ -30,8 +30,9 @@ function Logo({ light = false }: { light?: boolean }) {
         src="/bookit-pro-website.ico"
         alt="BookitPro"
         width="184"
-        height="184"
-        className={`h-[184px] w-[184px] object-contain mix-blend-multiply ${light ? "bg-transparent" : "bg-transparent"}`}
+        height="100"
+        style={{ mixBlendMode: "darken", backgroundColor: "transparent" }}
+        className="h-[100px] w-[184px] object-cover object-center"
       />
     </a>
   );
