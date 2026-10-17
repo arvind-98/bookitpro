@@ -1,23 +1,103 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+const siteUrl = "https://bookitpro-website.vercel.app";
+const siteTitle = "BookitPro | Canadian Accounting & Bookkeeping Software";
+const siteDescription =
+  "Simplify bookkeeping, invoicing, expenses, financial reports and GST/HST workflows with BookitPro, an accounting workspace for Canadian businesses and accounting professionals.";
+
 export const metadata: Metadata = {
-  title: "BookitPro — Accounting that moves your business forward",
-  description: "Bookkeeping, invoicing, expenses, banking and Canadian tax workflows in one clear workspace. Make month-end feel manageable with BookitPro.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: siteTitle,
+    template: "%s | BookitPro",
+  },
+  description: siteDescription,
   applicationName: "BookitPro",
-  keywords: ["Canadian accounting software", "bookkeeping", "GST HST", "invoicing", "small business accounting"],
-  icons: { icon: "/bookit-pro-website.ico" },
+  keywords: [
+    "Canadian accounting software",
+    "small business bookkeeping",
+    "online invoicing",
+    "GST/HST accounting",
+    "expense tracking",
+    "financial reporting",
+    "accounting software for small business Canada",
+    "bookkeeping software Canada",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  icons: {
+    icon: [
+      { url: "/bookit-pro-website.ico", type: "image/x-icon" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+  },
   openGraph: {
-    title: "BookitPro — Your business, in balance",
-    description: "A clearer way to manage your books, cash flow and tax workflows.",
+    title: siteTitle,
+    description: siteDescription,
+    url: siteUrl,
+    siteName: "BookitPro",
+    locale: "en_CA",
     type: "website",
   },
+  twitter: {
+    card: "summary",
+    title: siteTitle,
+    description: siteDescription,
+  },
+};
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": siteUrl + "/#organization",
+      name: "BookitPro",
+      url: siteUrl,
+      logo: siteUrl + "/bookit-pro-website.ico",
+    },
+    {
+      "@type": "WebSite",
+      "@id": siteUrl + "/#website",
+      name: "BookitPro",
+      url: siteUrl,
+      inLanguage: "en-CA",
+      publisher: { "@id": siteUrl + "/#organization" },
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "BookitPro",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Web",
+      description: siteDescription,
+      url: siteUrl,
+    },
+  ],
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en-CA">
+      <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
