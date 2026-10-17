@@ -29,9 +29,9 @@ function Logo({ light = false }: { light?: boolean }) {
       <img
         src="/bookit-pro-website.ico"
         alt="BookitPro"
-        width="88"
-        height="88"
-        className={`h-[76px] w-[76px] object-contain mix-blend-multiply ${light ? "bg-transparent" : "bg-transparent"}`}
+        width="104"
+        height="104"
+        className={`h-[92px] w-[92px] object-contain mix-blend-multiply ${light ? "bg-transparent" : "bg-transparent"}`}
       />
     </a>
   );
@@ -93,7 +93,7 @@ export default function HomePage() {
         A clearer view of your business starts here. <a href="#features" className="ml-1 inline-flex items-center gap-1 font-bold text-[#A6E8E4] hover:underline">Explore features <ArrowRight size={12}/></a>
       </div>
       <header className="sticky top-0 z-50 border-b border-[#E1E8EF]/90 bg-[#fbfaf6]/95 backdrop-blur-xl">
-        <div className="container flex h-[76px] items-center justify-between">
+        <div className="container flex h-[100px] items-center justify-between">
           <Logo/>
           <nav className="hidden items-center gap-8 md:flex"><a className="nav-link" href="#features">Features</a><a className="nav-link" href="#how-it-works">How it works</a><a className="nav-link" href="#for-business">Who it&apos;s for</a><a className="nav-link" href="#faq">FAQs</a></nav>
           <div className="hidden items-center gap-3 md:flex"><a className="nav-link px-2 py-2" href="https://portal.bookitpro.ca/" target="_blank" rel="noopener noreferrer">Sign in</a><a className="btn btn-primary" href="#contact">Get a demo <ArrowUpRight size={15}/></a></div>
