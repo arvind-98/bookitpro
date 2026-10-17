@@ -41,7 +41,6 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/bookit-pro-website.ico", type: "image/x-icon" },
-      { url: "/favicon.svg", type: "image/svg+xml" },
     ],
   },
   openGraph: {
