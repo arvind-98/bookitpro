@@ -3,7 +3,7 @@
 import { useState } from "react";
 import {
   ArrowDownRight, ArrowRight, ArrowUpRight, BadgeCheck, BarChart3, BookOpen, Check,
-  ClipboardCheck, Clock3, FileCheck2, FileSpreadsheet, Globe2, Layers3, Menu, Receipt,
+  ClipboardCheck, Clock3, FileCheck2, Globe2, Layers3, Menu, Receipt,
   ShieldCheck, Sparkles, TrendingUp, Users, Wallet, X, Zap, CircleHelp, Fingerprint,
 } from "lucide-react";
 
@@ -26,8 +26,8 @@ const faqs = [
 function Logo({ light = false }: { light?: boolean }) {
   return (
     <a href="#top" aria-label="BookitPro home" className="inline-flex items-center gap-2.5">
-      <span className={`flex h-10 w-10 items-center justify-center rounded-[13px] ${light ? "bg-white/10" : "bg-[#12694b]"}`}>
-        <FileSpreadsheet size={22} strokeWidth={2.1} color="white" />
+      <span className={`flex h-10 w-10 items-center justify-center overflow-hidden rounded-[13px] ${light ? "bg-white" : "bg-white"}`}>
+        <img src="/bookit-pro-website.ico" alt="" width="36" height="36" className="h-9 w-9 object-contain" />
       </span>
       <span className={`text-[20px] font-extrabold tracking-[-.055em] ${light ? "text-white" : "text-[#15251f]"}`}>bookit<span className={light ? "text-[#8de2b5]" : "text-[#12694b]"}>pro</span></span>
     </a>

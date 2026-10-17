@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "Bookkeeping, invoicing, expenses, banking and Canadian tax workflows in one clear workspace. Make month-end feel manageable with BookitPro.",
   applicationName: "BookitPro",
   keywords: ["Canadian accounting software", "bookkeeping", "GST HST", "invoicing", "small business accounting"],
-  icons: { icon: "/favicon.svg" },
+  icons: { icon: "/bookit-pro-website.ico" },
   openGraph: {
     title: "BookitPro — Your business, in balance",
     description: "A clearer way to manage your books, cash flow and tax workflows.",
