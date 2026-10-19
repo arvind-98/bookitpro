@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const siteUrl = "https://bookitpro-website.vercel.app";
+const siteUrl = "https://bookitpro.ca";
 const siteTitle = "BookitPro | Canadian Accounting & Bookkeeping Software";
 const siteDescription =
   "Simplify bookkeeping, invoicing, expenses, financial reports and GST/HST workflows with BookitPro, an accounting workspace for Canadian businesses and accounting professionals.";
